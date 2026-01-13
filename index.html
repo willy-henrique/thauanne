@@ -1,0 +1,113 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Thauanne Victoria - 18 Anos</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/favicon.svg" />
+    
+    <!-- Meta Tags para SEO e Compartilhamento -->
+    <meta name="description" content="🎂 Convite especial para os 18 anos de Thauanne Victoria! Uma manhã para celebrar o início de uma nova e brilhante jornada. 21 de Março de 2026 - Estância Olhos Verdes, Jussara - GO" />
+    <meta name="author" content="Thauanne Victoria" />
+    <meta name="theme-color" content="#0F172A" />
+    
+    <!-- Open Graph / Facebook / WhatsApp -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="🎂 Thauanne Victoria - 18 Anos | Convite Especial" />
+    <meta property="og:description" content="✨ Uma manhã mágica para celebrar o início de uma nova e brilhante jornada! Venha fazer parte deste momento único e especial. 21 de Março de 2026 às 10:00h | Estância Olhos Verdes, Jussara - GO 🎉" />
+    <meta property="og:image" content="/thauanne.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Convite de Aniversário - Thauanne Victoria 18 Anos" />
+    <meta property="og:url" content="" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:site_name" content="Thauanne Victoria - 18 Anos" />
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="🎂 Thauanne Victoria - 18 Anos | Convite Especial" />
+    <meta name="twitter:description" content="✨ Uma manhã mágica para celebrar o início de uma nova e brilhante jornada! Venha fazer parte deste momento único." />
+    <meta name="twitter:image" content="/thauanne.png" />
+    <meta name="twitter:image:alt" content="Convite de Aniversário - Thauanne Victoria 18 Anos" />
+    
+    <!-- WhatsApp específico -->
+    <meta name="format-detection" content="telephone=no" />
+    
+    <!-- Script para atualizar URL dinamicamente -->
+    <script>
+      (function() {
+        const url = window.location.href;
+        const ogUrlMeta = document.querySelector('meta[property="og:url"]');
+        if (ogUrlMeta) {
+          ogUrlMeta.setAttribute('content', url);
+        }
+        // Atualizar imagem para URL absoluta se necessário
+        const ogImageMeta = document.querySelector('meta[property="og:image"]');
+        if (ogImageMeta && ogImageMeta.getAttribute('content').startsWith('/')) {
+          const absoluteImageUrl = window.location.origin + ogImageMeta.getAttribute('content');
+          ogImageMeta.setAttribute('content', absoluteImageUrl);
+        }
+        const twitterImageMeta = document.querySelector('meta[name="twitter:image"]');
+        if (twitterImageMeta && twitterImageMeta.getAttribute('content').startsWith('/')) {
+          const absoluteImageUrl = window.location.origin + twitterImageMeta.getAttribute('content');
+          twitterImageMeta.setAttribute('content', absoluteImageUrl);
+        }
+      })();
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@200;300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <style>
+      :root {
+        --primary: #0F172A; /* Azul Marinho Profundo */
+        --accent: #94A3B8;  /* Prata / Platina */
+        --bg-main: #F8FAFC; /* Branco Premium */
+        --text-dark: #0F172A;
+      }
+      body {
+        background-color: var(--bg-main);
+        color: var(--text-dark);
+        margin: 0;
+        overflow-x: hidden;
+        -webkit-tap-highlight-color: transparent;
+      }
+      .font-cinzel { font-family: 'Cinzel', serif; }
+      .font-playfair { font-family: 'Playfair Display', serif; }
+      .font-montserrat { font-family: 'Montserrat', sans-serif; }
+      
+      .custom-scroll::-webkit-scrollbar { width: 4px; }
+      .custom-scroll::-webkit-scrollbar-track { background: transparent; }
+      .custom-scroll::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
+      
+      .paper-texture {
+        background-image: url('https://www.transparenttextures.com/patterns/handmade-paper.png');
+      }
+
+      .perspective-container {
+        perspective: 1500px;
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "react": "https://esm.sh/react@^19.2.3",
+    "framer-motion": "https://esm.sh/framer-motion@^12.26.1",
+    "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>

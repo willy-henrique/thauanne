@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <linearGradient id="cakeGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFB6C1;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#FF69B4;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FF1493;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="frostingGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFF8DC;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FFE4E1;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Base do bolo -->
+  <rect x="20" y="60" width="60" height="25" rx="3" fill="url(#cakeGradient)"/>
+  
+  <!-- Camada do meio -->
+  <rect x="25" y="45" width="50" height="20" rx="3" fill="url(#cakeGradient)"/>
+  
+  <!-- Camada superior -->
+  <rect x="30" y="30" width="40" height="20" rx="3" fill="url(#cakeGradient)"/>
+  
+  <!-- Cobertura (frosting) -->
+  <path d="M 30 30 Q 35 25, 40 30 Q 45 25, 50 30 Q 55 25, 60 30 Q 65 25, 70 30 L 70 50 L 30 50 Z" fill="url(#frostingGradient)"/>
+  
+  <!-- Velas -->
+  <rect x="45" y="15" width="3" height="15" fill="#FFD700" rx="1"/>
+  <rect x="52" y="15" width="3" height="15" fill="#FFD700" rx="1"/>
+  
+  <!-- Chamas -->
+  <circle cx="46.5" cy="12" r="2.5" fill="#FF4500"/>
+  <circle cx="53.5" cy="12" r="2.5" fill="#FF4500"/>
+  
+  <!-- Decorações -->
+  <circle cx="35" cy="35" r="2" fill="#FF69B4"/>
+  <circle cx="65" cy="35" r="2" fill="#FF69B4"/>
+  <circle cx="50" cy="40" r="2" fill="#FF69B4"/>
+</svg>
+

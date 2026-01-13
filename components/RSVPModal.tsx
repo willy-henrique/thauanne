@@ -1,0 +1,164 @@
+
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { X, CheckCircle2, Loader2 } from 'lucide-react';
+import { RSVPFormData } from '../types';
+import { EVENT_DETAILS } from '../constants';
+
+interface RSVPModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+const RSVPModal: React.FC<RSVPModalProps> = ({ isOpen, onClose }) => {
+  const [status, setStatus] = useState<'idle' | 'submitting' | 'success'>('idle');
+  const [formData, setFormData] = useState<RSVPFormData>({
+    fullName: '',
+    phone: '',
+    guests: 0,
+    message: ''
+  });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setStatus('submitting');
+    
+    // Preparar mensagem do WhatsApp
+    const whatsappNumber = "556292649828"; // Número 62 9264-9828 formatado para WhatsApp
+    const guestsText = formData.guests === 0 ? "Somente eu" : `Eu + ${formData.guests} acompanhante(s)`;
+    const text = `Olá Thauanne! ✨\nConfirmando minha presença no seu aniversário de 18 anos.\n\n👤 *Nome:* ${formData.fullName}\n👥 *Acompanhantes:* ${guestsText}\n💬 *Recado:* ${formData.message || "Sem mensagem adicional"}\n\nMal posso esperar! 🥂`;
+    
+    const encodedText = encodeURIComponent(text);
+    const whatsappUrl = `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${encodedText}`;
+
+    // Simular delay para feedback visual e abrir WhatsApp
+    setTimeout(() => {
+      window.open(whatsappUrl, '_blank');
+      setStatus('success');
+    }, 1200);
+  };
+
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={onClose}
+            className="absolute inset-0 bg-[#0F172A]/40 backdrop-blur-md"
+          />
+          
+          <motion.div
+            initial={{ scale: 0.95, opacity: 0, y: 30 }}
+            animate={{ scale: 1, opacity: 1, y: 0 }}
+            exit={{ scale: 0.95, opacity: 0, y: 30 }}
+            className="relative w-full max-w-md bg-white rounded-3xl shadow-[0_25px_80px_rgba(0,0,0,0.2)] overflow-hidden paper-texture"
+          >
+            <button 
+              onClick={onClose}
+              className="absolute top-5 right-5 text-gray-300 hover:text-[#0F172A] transition-colors z-10"
+            >
+              <X size={24} />
+            </button>
+
+            <div className="p-8 sm:p-10">
+              {status === 'success' ? (
+                <div className="text-center py-8">
+                  <motion.div
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    className="flex justify-center mb-6"
+                  >
+                    <div className="w-20 h-20 bg-[#0F172A]/5 rounded-full flex items-center justify-center">
+                      <CheckCircle2 size={56} className="text-[#0F172A]" />
+                    </div>
+                  </motion.div>
+                  <h3 className="font-cinzel text-2xl text-[#0F172A] mb-3 font-bold uppercase tracking-wider">Tudo Pronto!</h3>
+                  <p className="font-montserrat text-gray-500 text-sm leading-relaxed">
+                    Sua confirmação foi preparada para o WhatsApp. Se a conversa não abriu automaticamente, clique no botão abaixo para concluir o envio.
+                  </p>
+                  <button 
+                    onClick={onClose}
+                    className="mt-10 w-full py-4 bg-[#0F172A] text-white rounded-full font-montserrat font-bold tracking-[0.3em] hover:bg-[#1e293b] transition-colors text-[11px]"
+                  >
+                    FECHAR
+                  </button>
+                </div>
+              ) : (
+                <>
+                  <h2 className="font-cinzel text-3xl text-center text-[#0F172A] mb-2 font-bold uppercase tracking-widest">RSVP</h2>
+                  <p className="font-montserrat text-center text-[10px] text-[#94A3B8] mb-10 uppercase tracking-[0.4em] font-bold">Confirmação de Presença</p>
+                  
+                  <form onSubmit={handleSubmit} className="space-y-5">
+                    <div>
+                      <label className="block font-montserrat text-[10px] uppercase text-[#64748B] mb-2 tracking-[0.2em] font-bold">Nome Completo</label>
+                      <input 
+                        required
+                        type="text"
+                        className="w-full bg-[#F8FAFC] border border-gray-100 rounded-xl p-4 outline-none focus:border-[#0F172A] transition-colors font-montserrat text-sm"
+                        placeholder="Nome e Sobrenome"
+                        value={formData.fullName}
+                        onChange={(e) => setFormData({...formData, fullName: e.target.value})}
+                      />
+                    </div>
+                    
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label className="block font-montserrat text-[10px] uppercase text-[#64748B] mb-2 tracking-[0.2em] font-bold">WhatsApp</label>
+                        <input 
+                          required
+                          type="tel"
+                          className="w-full bg-[#F8FAFC] border border-gray-100 rounded-xl p-4 outline-none focus:border-[#0F172A] transition-colors font-montserrat text-sm"
+                          placeholder="(00) 00000-0000"
+                          value={formData.phone}
+                          onChange={(e) => setFormData({...formData, phone: e.target.value})}
+                        />
+                      </div>
+                      <div>
+                        <label className="block font-montserrat text-[10px] uppercase text-[#64748B] mb-2 tracking-[0.2em] font-bold">Acompanhantes</label>
+                        <select 
+                          className="w-full bg-[#F8FAFC] border border-gray-100 rounded-xl p-4 outline-none focus:border-[#0F172A] transition-colors font-montserrat text-sm appearance-none"
+                          value={formData.guests}
+                          onChange={(e) => setFormData({...formData, guests: parseInt(e.target.value)})}
+                        >
+                          <option value={0}>Somente eu</option>
+                          <option value={1}>+1</option>
+                          <option value={2}>+2</option>
+                          <option value={3}>+3</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block font-montserrat text-[10px] uppercase text-[#64748B] mb-2 tracking-[0.2em] font-bold">Mensagem Especial</label>
+                      <textarea 
+                        className="w-full bg-[#F8FAFC] border border-gray-100 rounded-xl p-4 outline-none focus:border-[#0F172A] transition-colors font-montserrat text-sm h-24 resize-none"
+                        placeholder="Mande um recado..."
+                        value={formData.message}
+                        onChange={(e) => setFormData({...formData, message: e.target.value})}
+                      />
+                    </div>
+
+                    <button 
+                      type="submit"
+                      disabled={status === 'submitting'}
+                      className="w-full py-5 bg-[#0F172A] text-white rounded-full font-montserrat font-bold tracking-[0.4em] shadow-xl hover:bg-[#1e293b] transition-all flex items-center justify-center text-[11px] mt-4"
+                    >
+                      {status === 'submitting' ? (
+                        <Loader2 className="animate-spin mr-2" />
+                      ) : 'CONFIRMAR AGORA'}
+                    </button>
+                  </form>
+                </>
+              )}
+            </div>
+          </motion.div>
+        </div>
+      )}
+    </AnimatePresence>
+  );
+};
+
+export default RSVPModal;
