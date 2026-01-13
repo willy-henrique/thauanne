@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, CheckCircle2, Loader2 } from 'lucide-react';
 import { RSVPFormData } from '../types';
@@ -12,12 +12,27 @@ interface RSVPModalProps {
 
 const RSVPModal: React.FC<RSVPModalProps> = ({ isOpen, onClose }) => {
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success'>('idle');
+  const [whatsappUrl, setWhatsappUrl] = useState<string>('');
   const [formData, setFormData] = useState<RSVPFormData>({
     fullName: '',
     phone: '',
     guests: 0,
     message: ''
   });
+
+  // Resetar estado quando o modal fechar
+  useEffect(() => {
+    if (!isOpen) {
+      setStatus('idle');
+      setWhatsappUrl('');
+      setFormData({
+        fullName: '',
+        phone: '',
+        guests: 0,
+        message: ''
+      });
+    }
+  }, [isOpen]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -29,13 +44,38 @@ const RSVPModal: React.FC<RSVPModalProps> = ({ isOpen, onClose }) => {
     const text = `Olá Thauanne! ✨\nConfirmando minha presença no seu aniversário de 18 anos.\n\n👤 *Nome:* ${formData.fullName}\n👥 *Acompanhantes:* ${guestsText}\n💬 *Recado:* ${formData.message || "Sem mensagem adicional"}\n\nMal posso esperar! 🥂`;
     
     const encodedText = encodeURIComponent(text);
-    const whatsappUrl = `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${encodedText}`;
+    const url = `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${encodedText}`;
+    
+    // Salvar URL para uso no botão de fallback
+    setWhatsappUrl(url);
 
-    // Simular delay para feedback visual e abrir WhatsApp
+    // Detectar se é mobile
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    
+    // Pequeno delay para feedback visual antes de abrir WhatsApp
     setTimeout(() => {
-      window.open(whatsappUrl, '_blank');
-      setStatus('success');
-    }, 1200);
+      try {
+        if (isMobile) {
+          // Em mobile, usar window.location.href funciona melhor
+          window.location.href = url;
+        } else {
+          // Em desktop, tentar window.open primeiro, se falhar usar location.href
+          const newWindow = window.open(url, '_blank', 'noopener,noreferrer');
+          
+          // Se pop-up foi bloqueado, usar location.href como fallback
+          if (!newWindow || newWindow.closed || typeof newWindow.closed === 'undefined') {
+            window.location.href = url;
+          }
+        }
+        
+        // Atualizar status após tentar abrir
+        setStatus('success');
+      } catch (error) {
+        // Em caso de erro, ainda assim mostrar sucesso e permitir tentar novamente
+        console.error('Erro ao abrir WhatsApp:', error);
+        setStatus('success');
+      }
+    }, 800);
   };
 
   return (
@@ -78,15 +118,32 @@ const RSVPModal: React.FC<RSVPModalProps> = ({ isOpen, onClose }) => {
                     </div>
                   </motion.div>
                   <h3 className="font-cinzel text-xl sm:text-2xl text-[#0F172A] mb-2 sm:mb-3 font-bold uppercase tracking-wider">Tudo Pronto!</h3>
-                  <p className="font-montserrat text-gray-500 text-xs sm:text-sm leading-relaxed px-2">
+                  <p className="font-montserrat text-gray-500 text-xs sm:text-sm leading-relaxed px-2 mb-4">
                     Sua confirmação foi preparada para o WhatsApp. Se a conversa não abriu automaticamente, clique no botão abaixo para concluir o envio.
                   </p>
-                  <button 
-                    onClick={onClose}
-                    className="mt-6 sm:mt-10 w-full py-3 sm:py-4 bg-[#0F172A] text-white rounded-full font-montserrat font-bold tracking-[0.3em] hover:bg-[#1e293b] active:bg-[#1e293b] transition-colors text-[10px] sm:text-[11px] touch-manipulation min-h-[44px]"
-                  >
-                    FECHAR
-                  </button>
+                  <div className="space-y-3">
+                    <a
+                      href={whatsappUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        // Garantir que abre o WhatsApp
+                        if (whatsappUrl) {
+                          window.location.href = whatsappUrl;
+                        }
+                      }}
+                      className="block w-full py-3 sm:py-4 bg-[#25D366] text-white rounded-full font-montserrat font-bold tracking-[0.3em] hover:bg-[#20BA5A] active:bg-[#20BA5A] transition-colors text-[10px] sm:text-[11px] touch-manipulation min-h-[44px] text-center"
+                    >
+                      ABRIR WHATSAPP
+                    </a>
+                    <button 
+                      onClick={onClose}
+                      className="w-full py-3 sm:py-4 bg-[#0F172A] text-white rounded-full font-montserrat font-bold tracking-[0.3em] hover:bg-[#1e293b] active:bg-[#1e293b] transition-colors text-[10px] sm:text-[11px] touch-manipulation min-h-[44px]"
+                    >
+                      FECHAR
+                    </button>
+                  </div>
                 </div>
               ) : (
                 <>
