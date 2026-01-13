@@ -92,6 +92,30 @@
       .perspective-container {
         perspective: 1500px;
       }
+      
+      /* Melhorias para mobile */
+      .touch-manipulation {
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: transparent;
+      }
+      
+      /* Prevenir zoom em inputs no iOS */
+      @media screen and (max-width: 768px) {
+        input[type="text"],
+        input[type="tel"],
+        textarea,
+        select {
+          font-size: 16px !important;
+        }
+      }
+      
+      /* Ajustes para modal no mobile */
+      @media screen and (max-height: 600px) {
+        .modal-container {
+          align-items: flex-start;
+          padding-top: 1rem;
+        }
+      }
     </style>
   <script type="importmap">
 {

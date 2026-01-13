@@ -41,7 +41,7 @@ const RSVPModal: React.FC<RSVPModalProps> = ({ isOpen, onClose }) => {
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-4 overflow-y-auto modal-container">
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -54,72 +54,77 @@ const RSVPModal: React.FC<RSVPModalProps> = ({ isOpen, onClose }) => {
             initial={{ scale: 0.95, opacity: 0, y: 30 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.95, opacity: 0, y: 30 }}
-            className="relative w-full max-w-md bg-white rounded-3xl shadow-[0_25px_80px_rgba(0,0,0,0.2)] overflow-hidden paper-texture"
+            onClick={(e) => e.stopPropagation()}
+            className="relative w-full max-w-md bg-white rounded-2xl sm:rounded-3xl shadow-[0_25px_80px_rgba(0,0,0,0.2)] overflow-hidden paper-texture my-auto"
           >
             <button 
               onClick={onClose}
-              className="absolute top-5 right-5 text-gray-300 hover:text-[#0F172A] transition-colors z-10"
+              className="absolute top-3 right-3 sm:top-5 sm:right-5 text-gray-300 hover:text-[#0F172A] transition-colors z-10 p-2 -m-2 touch-manipulation"
+              aria-label="Fechar"
             >
-              <X size={24} />
+              <X size={20} className="sm:w-6 sm:h-6" />
             </button>
 
-            <div className="p-8 sm:p-10">
+            <div className="p-5 sm:p-8 md:p-10">
               {status === 'success' ? (
-                <div className="text-center py-8">
+                <div className="text-center py-4 sm:py-8">
                   <motion.div
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
-                    className="flex justify-center mb-6"
+                    className="flex justify-center mb-4 sm:mb-6"
                   >
-                    <div className="w-20 h-20 bg-[#0F172A]/5 rounded-full flex items-center justify-center">
-                      <CheckCircle2 size={56} className="text-[#0F172A]" />
+                    <div className="w-16 h-16 sm:w-20 sm:h-20 bg-[#0F172A]/5 rounded-full flex items-center justify-center">
+                      <CheckCircle2 size={40} className="sm:w-14 sm:h-14 text-[#0F172A]" />
                     </div>
                   </motion.div>
-                  <h3 className="font-cinzel text-2xl text-[#0F172A] mb-3 font-bold uppercase tracking-wider">Tudo Pronto!</h3>
-                  <p className="font-montserrat text-gray-500 text-sm leading-relaxed">
+                  <h3 className="font-cinzel text-xl sm:text-2xl text-[#0F172A] mb-2 sm:mb-3 font-bold uppercase tracking-wider">Tudo Pronto!</h3>
+                  <p className="font-montserrat text-gray-500 text-xs sm:text-sm leading-relaxed px-2">
                     Sua confirmação foi preparada para o WhatsApp. Se a conversa não abriu automaticamente, clique no botão abaixo para concluir o envio.
                   </p>
                   <button 
                     onClick={onClose}
-                    className="mt-10 w-full py-4 bg-[#0F172A] text-white rounded-full font-montserrat font-bold tracking-[0.3em] hover:bg-[#1e293b] transition-colors text-[11px]"
+                    className="mt-6 sm:mt-10 w-full py-3 sm:py-4 bg-[#0F172A] text-white rounded-full font-montserrat font-bold tracking-[0.3em] hover:bg-[#1e293b] active:bg-[#1e293b] transition-colors text-[10px] sm:text-[11px] touch-manipulation min-h-[44px]"
                   >
                     FECHAR
                   </button>
                 </div>
               ) : (
                 <>
-                  <h2 className="font-cinzel text-3xl text-center text-[#0F172A] mb-2 font-bold uppercase tracking-widest">RSVP</h2>
-                  <p className="font-montserrat text-center text-[10px] text-[#94A3B8] mb-10 uppercase tracking-[0.4em] font-bold">Confirmação de Presença</p>
+                  <h2 className="font-cinzel text-2xl sm:text-3xl text-center text-[#0F172A] mb-1 sm:mb-2 font-bold uppercase tracking-widest">RSVP</h2>
+                  <p className="font-montserrat text-center text-[9px] sm:text-[10px] text-[#94A3B8] mb-6 sm:mb-10 uppercase tracking-[0.4em] font-bold">Confirmação de Presença</p>
                   
-                  <form onSubmit={handleSubmit} className="space-y-5">
+                  <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5">
                     <div>
-                      <label className="block font-montserrat text-[10px] uppercase text-[#64748B] mb-2 tracking-[0.2em] font-bold">Nome Completo</label>
+                      <label className="block font-montserrat text-[9px] sm:text-[10px] uppercase text-[#64748B] mb-1.5 sm:mb-2 tracking-[0.2em] font-bold">Nome Completo</label>
                       <input 
                         required
                         type="text"
-                        className="w-full bg-[#F8FAFC] border border-gray-100 rounded-xl p-4 outline-none focus:border-[#0F172A] transition-colors font-montserrat text-sm"
+                        className="w-full bg-[#F8FAFC] border border-gray-100 rounded-xl p-3.5 sm:p-4 outline-none focus:border-[#0F172A] transition-colors font-montserrat text-sm sm:text-base min-h-[44px] touch-manipulation"
                         placeholder="Nome e Sobrenome"
                         value={formData.fullName}
                         onChange={(e) => setFormData({...formData, fullName: e.target.value})}
+                        autoComplete="name"
                       />
                     </div>
                     
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                       <div>
-                        <label className="block font-montserrat text-[10px] uppercase text-[#64748B] mb-2 tracking-[0.2em] font-bold">WhatsApp</label>
+                        <label className="block font-montserrat text-[9px] sm:text-[10px] uppercase text-[#64748B] mb-1.5 sm:mb-2 tracking-[0.2em] font-bold">WhatsApp</label>
                         <input 
                           required
                           type="tel"
-                          className="w-full bg-[#F8FAFC] border border-gray-100 rounded-xl p-4 outline-none focus:border-[#0F172A] transition-colors font-montserrat text-sm"
+                          inputMode="tel"
+                          className="w-full bg-[#F8FAFC] border border-gray-100 rounded-xl p-3.5 sm:p-4 outline-none focus:border-[#0F172A] transition-colors font-montserrat text-sm sm:text-base min-h-[44px] touch-manipulation"
                           placeholder="(00) 00000-0000"
                           value={formData.phone}
                           onChange={(e) => setFormData({...formData, phone: e.target.value})}
+                          autoComplete="tel"
                         />
                       </div>
                       <div>
-                        <label className="block font-montserrat text-[10px] uppercase text-[#64748B] mb-2 tracking-[0.2em] font-bold">Acompanhantes</label>
+                        <label className="block font-montserrat text-[9px] sm:text-[10px] uppercase text-[#64748B] mb-1.5 sm:mb-2 tracking-[0.2em] font-bold">Acompanhantes</label>
                         <select 
-                          className="w-full bg-[#F8FAFC] border border-gray-100 rounded-xl p-4 outline-none focus:border-[#0F172A] transition-colors font-montserrat text-sm appearance-none"
+                          className="w-full bg-[#F8FAFC] border border-gray-100 rounded-xl p-3.5 sm:p-4 outline-none focus:border-[#0F172A] transition-colors font-montserrat text-sm sm:text-base appearance-none min-h-[44px] touch-manipulation"
                           value={formData.guests}
                           onChange={(e) => setFormData({...formData, guests: parseInt(e.target.value)})}
                         >
@@ -132,9 +137,9 @@ const RSVPModal: React.FC<RSVPModalProps> = ({ isOpen, onClose }) => {
                     </div>
 
                     <div>
-                      <label className="block font-montserrat text-[10px] uppercase text-[#64748B] mb-2 tracking-[0.2em] font-bold">Mensagem Especial</label>
+                      <label className="block font-montserrat text-[9px] sm:text-[10px] uppercase text-[#64748B] mb-1.5 sm:mb-2 tracking-[0.2em] font-bold">Mensagem Especial</label>
                       <textarea 
-                        className="w-full bg-[#F8FAFC] border border-gray-100 rounded-xl p-4 outline-none focus:border-[#0F172A] transition-colors font-montserrat text-sm h-24 resize-none"
+                        className="w-full bg-[#F8FAFC] border border-gray-100 rounded-xl p-3.5 sm:p-4 outline-none focus:border-[#0F172A] transition-colors font-montserrat text-sm sm:text-base h-20 sm:h-24 resize-none touch-manipulation"
                         placeholder="Mande um recado..."
                         value={formData.message}
                         onChange={(e) => setFormData({...formData, message: e.target.value})}
@@ -144,10 +149,13 @@ const RSVPModal: React.FC<RSVPModalProps> = ({ isOpen, onClose }) => {
                     <button 
                       type="submit"
                       disabled={status === 'submitting'}
-                      className="w-full py-5 bg-[#0F172A] text-white rounded-full font-montserrat font-bold tracking-[0.4em] shadow-xl hover:bg-[#1e293b] transition-all flex items-center justify-center text-[11px] mt-4"
+                      className="w-full py-4 sm:py-5 bg-[#0F172A] text-white rounded-full font-montserrat font-bold tracking-[0.3em] sm:tracking-[0.4em] shadow-xl hover:bg-[#1e293b] active:bg-[#1e293b] transition-all flex items-center justify-center text-[10px] sm:text-[11px] mt-3 sm:mt-4 min-h-[50px] touch-manipulation disabled:opacity-70"
                     >
                       {status === 'submitting' ? (
-                        <Loader2 className="animate-spin mr-2" />
+                        <>
+                          <Loader2 className="animate-spin mr-2 w-4 h-4 sm:w-5 sm:h-5" />
+                          <span>ENVIANDO...</span>
+                        </>
                       ) : 'CONFIRMAR AGORA'}
                     </button>
                   </form>
