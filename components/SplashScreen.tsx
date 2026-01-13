@@ -61,7 +61,7 @@ const SplashScreen: React.FC = () => {
             transition={{ delay: 0.8, duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
             className="font-cinzel text-[#0F172A] text-2xl sm:text-3xl font-bold uppercase tracking-[0.4em] text-center"
           >
-            Thauanne Victoria
+            Thauanne Victória
           </motion.h1>
         </div>
 

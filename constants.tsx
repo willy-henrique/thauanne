@@ -9,7 +9,7 @@ export const COLORS = {
 };
 
 export const EVENT_DETAILS: EventDetails = {
-  name: "Thauanne Victoria",
+  name: "Thauanne Victória",
   age: "18 Anos",
   date: "21 de Março de 2026",
   targetDate: new Date("2026-03-21T10:00:00-03:00"),

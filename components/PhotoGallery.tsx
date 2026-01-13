@@ -15,7 +15,7 @@ const PhotoGallery: React.FC = () => {
         >
           <img 
             src={photo} 
-            alt={`Thauanne Victoria ${index + 1}`}
+            alt={`Thauanne Victória ${index + 1}`}
             loading="lazy"
             className="w-full h-full object-cover"
           />

@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, CheckCircle2, Loader2 } from 'lucide-react';
-import { RSVPFormData } from '../types';
 import { EVENT_DETAILS } from '../constants';
 
 interface RSVPModalProps {
@@ -13,10 +12,9 @@ interface RSVPModalProps {
 const RSVPModal: React.FC<RSVPModalProps> = ({ isOpen, onClose }) => {
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success'>('idle');
   const [whatsappUrl, setWhatsappUrl] = useState<string>('');
-  const [formData, setFormData] = useState<RSVPFormData>({
+  const [formData, setFormData] = useState({
     fullName: '',
     phone: '',
-    guests: 0,
     message: ''
   });
 
@@ -28,7 +26,6 @@ const RSVPModal: React.FC<RSVPModalProps> = ({ isOpen, onClose }) => {
       setFormData({
         fullName: '',
         phone: '',
-        guests: 0,
         message: ''
       });
     }
@@ -40,8 +37,7 @@ const RSVPModal: React.FC<RSVPModalProps> = ({ isOpen, onClose }) => {
     
     // Preparar mensagem do WhatsApp
     const whatsappNumber = "556292649828"; // Número 62 9264-9828 formatado para WhatsApp
-    const guestsText = formData.guests === 0 ? "Somente eu" : `Eu + ${formData.guests} acompanhante(s)`;
-    const text = `Olá Thauanne! ✨\nConfirmando minha presença no seu aniversário de 18 anos.\n\n👤 *Nome:* ${formData.fullName}\n👥 *Acompanhantes:* ${guestsText}\n💬 *Recado:* ${formData.message || "Sem mensagem adicional"}\n\nMal posso esperar! 🥂`;
+    const text = `Olá Thauanne! ✨\nConfirmando minha presença no seu aniversário de 18 anos.\n\n👤 *Nome:* ${formData.fullName}\n💬 *Recado:* ${formData.message || "Sem mensagem adicional"}\n\nMal posso esperar! 🥂`;
     
     const encodedText = encodeURIComponent(text);
     const url = `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${encodedText}`;
@@ -164,33 +160,18 @@ const RSVPModal: React.FC<RSVPModalProps> = ({ isOpen, onClose }) => {
                       />
                     </div>
                     
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-                      <div>
-                        <label className="block font-montserrat text-[9px] sm:text-[10px] uppercase text-[#64748B] mb-1.5 sm:mb-2 tracking-[0.2em] font-bold">WhatsApp</label>
-                        <input 
-                          required
-                          type="tel"
-                          inputMode="tel"
-                          className="w-full bg-[#F8FAFC] border border-gray-100 rounded-xl p-3.5 sm:p-4 outline-none focus:border-[#0F172A] transition-colors font-montserrat text-sm sm:text-base min-h-[44px] touch-manipulation"
-                          placeholder="(00) 00000-0000"
-                          value={formData.phone}
-                          onChange={(e) => setFormData({...formData, phone: e.target.value})}
-                          autoComplete="tel"
-                        />
-                      </div>
-                      <div>
-                        <label className="block font-montserrat text-[9px] sm:text-[10px] uppercase text-[#64748B] mb-1.5 sm:mb-2 tracking-[0.2em] font-bold">Acompanhantes</label>
-                        <select 
-                          className="w-full bg-[#F8FAFC] border border-gray-100 rounded-xl p-3.5 sm:p-4 outline-none focus:border-[#0F172A] transition-colors font-montserrat text-sm sm:text-base appearance-none min-h-[44px] touch-manipulation"
-                          value={formData.guests}
-                          onChange={(e) => setFormData({...formData, guests: parseInt(e.target.value)})}
-                        >
-                          <option value={0}>Somente eu</option>
-                          <option value={1}>+1</option>
-                          <option value={2}>+2</option>
-                          <option value={3}>+3</option>
-                        </select>
-                      </div>
+                    <div>
+                      <label className="block font-montserrat text-[9px] sm:text-[10px] uppercase text-[#64748B] mb-1.5 sm:mb-2 tracking-[0.2em] font-bold">WhatsApp</label>
+                      <input 
+                        required
+                        type="tel"
+                        inputMode="tel"
+                        className="w-full bg-[#F8FAFC] border border-gray-100 rounded-xl p-3.5 sm:p-4 outline-none focus:border-[#0F172A] transition-colors font-montserrat text-sm sm:text-base min-h-[44px] touch-manipulation"
+                        placeholder="(00) 00000-0000"
+                        value={formData.phone}
+                        onChange={(e) => setFormData({...formData, phone: e.target.value})}
+                        autoComplete="tel"
+                      />
                     </div>
 
                     <div>

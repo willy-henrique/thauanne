@@ -1,7 +1,7 @@
 
 import React, { useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Calendar, Clock, MapPin, ChevronDown, Sparkles, ArrowDown, Image as ImageIcon } from 'lucide-react';
+import { Calendar, Clock, MapPin, ChevronDown, Sparkles, ArrowDown, Image as ImageIcon, Wine } from 'lucide-react';
 import { AppState } from '../types';
 import { EVENT_DETAILS } from '../constants';
 import Countdown from './Countdown';
@@ -62,7 +62,7 @@ const InviteCard: React.FC<InviteCardProps> = ({ appState, onOpen, onOpenRSVP })
               >
                 Convite Especial
               </motion.span>
-              <h1 className="font-playfair text-5xl sm:text-7xl font-bold italic mb-4 text-[#F8FAFC] tracking-tight text-center">Thauanne Victoria</h1>
+              <h1 className="font-playfair text-5xl sm:text-7xl font-bold italic mb-4 text-[#F8FAFC] tracking-tight text-center">Thauanne Victória</h1>
               <div className="w-20 h-[1px] bg-white/20 mx-auto my-6" />
               <span className="font-cinzel text-xl sm:text-3xl tracking-[0.4em] text-white/80">{EVENT_DETAILS.age}</span>
             </div>
@@ -145,6 +145,19 @@ const InviteCard: React.FC<InviteCardProps> = ({ appState, onOpen, onOpenRSVP })
                     </div>
                   </a>
                 </div>
+
+                {/* Nota sutil sobre bebidas */}
+                <motion.div 
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.5, duration: 0.8 }}
+                  className="flex items-center justify-center gap-2 mt-6 mb-2 px-4 py-2.5 bg-[#0F172A]/5 rounded-full border border-[#0F172A]/10"
+                >
+                  <Wine size={14} className="text-[#94A3B8]" />
+                  <p className="font-montserrat text-[9px] text-[#64748B] tracking-wide">
+                    Bebidas alcoólicas ficam por conta do convidado
+                  </p>
+                </motion.div>
 
                 {/* BOTÃO PARA DETALHES */}
                 <div className="relative flex flex-col items-center mt-8">
